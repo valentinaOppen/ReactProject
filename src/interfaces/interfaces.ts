@@ -1,5 +1,5 @@
 export interface IProduct {
-    id:string,
+    id: string,
     logo: string,
     name: string,
     description: string,
@@ -9,8 +9,17 @@ export interface IProduct {
 
 export interface IProductState {
     list: Array<IProduct>,
+    productSelected?: IProduct | null,
     loading: boolean;
 }
 
 
-
+export interface IColumnsTable {
+    property: string,
+    text?: string,
+    class?: string,
+    icon?: string,
+    iconClass?: string,
+    options?: string[],
+    type: "string" | "date" | "image" | "menu"
+}

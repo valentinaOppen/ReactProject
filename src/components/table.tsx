@@ -1,37 +1,51 @@
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { loadProducts } from "../store/productSlice";
-import { IProductState, IProduct } from '../interfaces/interfaces';
+import { IColumnsTable } from '../interfaces/interfaces';
+import moment from 'moment'
+import dots from '../assets/dots.svg';
+import './../styles/table.css';
+import DropDownMenu from './ui/dropDownMenu';
+import { useState } from 'react';
 
-const Table = () => {
-    const dispatch = useDispatch();
-    let products = useSelector((state: any) => state.product.list);
+const Table = (props: { data: any, columns: IColumnsTable[] }) => {
+    const [menuActive, setMenuActive] = useState(-1);
 
-    useEffect(() => {
-        //@ts-ignore
-        dispatch(loadProducts());
-    }, [dispatch]);
-
+    const handleMenuActive = (index: number) => {
+        if (menuActive === index) setMenuActive(-1);
+        else setMenuActive(index);
+    }
     return (
         <table>
-            <tr>
-                <th>Logo</th>
-                <th>Nombre del producto</th>
-                <th>Descripción</th>
-                <th>Fecha de liberación</th>
-                <th>Fecha de reestracturación</th>
-            </tr>
-
-            {products.map((x: IProduct) => {
-                return <> <tr key={x.name}>
-                    <td>JG</td>
-                    <td>{x.name}</td>
-                    <td>{x.description}</td>
-                    <td>{x.date_release.toString()}</td>
-                    <td>{x.date_revision.toString()}</td>
+            <thead>
+                <tr key='1'>
+                    {props.columns.map((x: IColumnsTable) => { return <th key={x.text}>{x.text} {x.icon ? <img className={x.iconClass} src={`images/${x.icon}`} /> : ''}</th> })}
                 </tr>
-                </>
-            })}
+            </thead>
+            <tbody>
+                {props.data.map((x: any, index: number) => {
+                    return <tr key={x.id}>
+                        {props.columns.map((column: IColumnsTable) => {
+                            return <td key={x.key + column.property}>
+                                {
+                                    column.type === 'date' ? moment(x[column.property]).format('L') :
+                                        column.type === 'image' ? <img className="img-logo" alt="JS" src={x[column.property]} /> :
+                                            column.type === 'menu' ?
+                                                <div className='relative'>
+                                                    <button className='btn-transparent' onClick={() => handleMenuActive(index)}>
+                                                        <img className="icon-dots" src={dots} />
+                                                    </button>
+                                                    {menuActive === index ? <DropDownMenu product={x} /> : ''}
+                                                </div>
+                                                : x[column.property]
+                                }
+                            </td>
+                        })}
+
+                        <td></td>
+                    </tr>
+                })
+
+
+                }
+            </tbody>
         </table>)
 
 }

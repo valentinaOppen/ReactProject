@@ -2,7 +2,9 @@
 import logo from "../assets/logo.png";
 
 const Header = () => {
-    return <img className="margin-auto" src={logo} />
+    return <div className="text-center">
+        <img width={200} src={logo} />
+    </div>
 }
 
 export default Header;

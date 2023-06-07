@@ -1,0 +1,23 @@
+
+.dropdown-menu {
+    position: absolute;
+    right: 10px;
+    width: 100px;
+    white-space: nowrap;
+    border: solid 1px;
+    text-align: center;
+    border-radius: 6px;
+    z-index: 1;
+    background: white;
+    margin-top: 6px;
+}
+
+.dropdown-menu > ul {
+    margin: 0;
+    padding: 10px;
+}
+
+.dropdown-menu > ul > li {
+    margin-bottom: 5px;
+}
+

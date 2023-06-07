@@ -1,34 +1,22 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { BrowserRouter, BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Header from './components/header';
-import Table from './components/table';
-
-const Home = () => <h2>Home</h2>;
-const About = () => <h2>About</h2>;
+import ProductsForm from './pages/products-form';
+import ProductsList from './pages/products-list';
+import './App.css';
 
 const App = () => {
   return (
-    <>
+    <BrowserRouter>
       <Header />
-      <Table />
-    </>
-    // <Router>
-    //   <div>
-    //     <nav>
-    //       <ul>
-    //         <li>
-    //           <Link to="/">Home</Link>
-    //         </li>
-    //         <li>
-    //           <Link to="/about">About</Link>
-    //         </li>
-    //       </ul>
-    //     </nav>
-
-    //     <Route path="/" Component={Home} />
-    //     <Route path="/about" Component={About} />
-    //   </div>
-    // </Router>
+      <div className='container'>
+        <Routes>
+          <Route path="/" element={<ProductsList />} />
+          <Route path="nuevo-producto" element={<ProductsForm />} />
+          <Route path="editar-producto" element={<ProductsForm />} />
+          <Route path="eliminar-producto" element={<ProductsForm />} />
+        </Routes>
+      </div>
+    </BrowserRouter>
   );
 };
 

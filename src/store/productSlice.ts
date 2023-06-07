@@ -1,15 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { IProductState } from '../interfaces/interfaces';
+import { IProductState, IProduct } from '../interfaces/interfaces';
 import { apiCallBegan } from './api';
 
 const initialState: IProductState = {
     list: [],
+    productSelected: null,
     loading: false
 }
 
 export const productSlice = createSlice({
-  name: 'product',
-  initialState,
+    name: 'product',
+    initialState,
     reducers: {
         productsRequested: (state) => {
             state.loading = true;
@@ -21,10 +22,13 @@ export const productSlice = createSlice({
         productsRequestFailed: (state) => {
             state.loading = false;
         },
+        productSelected: (state, action) => {
+            state.productSelected = action.payload
+        }
     }
 })
 
-export const { productsRequested, productsReceived, productsRequestFailed } = productSlice.actions;
+export const { productsRequested, productsReceived, productsRequestFailed, productSelected } = productSlice.actions;
 
 export default productSlice.reducer;
 
@@ -42,3 +46,4 @@ export const loadProducts = () => (dispatch) => {
         })
     );
 };
+

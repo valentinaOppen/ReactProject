@@ -1,0 +1,10 @@
+.filter-input {
+    height: 38px;
+    margin: 20px 10px;
+    border-radius: 6px;
+    width: 250px;
+    font-size: 16px;
+    border: solid 2px #b3b3b5;
+    padding-left: 10px;
+    color: #696969;
+  }
