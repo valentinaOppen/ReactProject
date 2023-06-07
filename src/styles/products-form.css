@@ -1,0 +1,39 @@
+.container-form {
+    width: 60%;
+    margin: 60px auto;
+    text-align: center;
+    padding-top: 30px;
+    background-color: white;
+
+}
+
+.title-form {
+    border-bottom: solid 1px;
+    padding-bottom: 43px;
+}
+
+.form-input {
+    height: 3rem;
+    border-radius: 6px;
+    width: 90%;
+    margin: 12px auto 0;
+    padding-left: 5px;
+}
+
+.label-form {
+    margin-left: 5%;
+    font-weight: bold;
+}
+
+.buttons-form {
+    padding: 20px 0 40px;
+}
+
+.input-error {
+    color: red;
+    margin: 2px 0 12px 5%;
+}
+
+.form-error {
+    border: solid 2px red;
+}

@@ -11,6 +11,7 @@ export interface IProductState {
     list: Array<IProduct>,
     productSelected?: IProduct | null,
     loading: boolean;
+    error?: any;
 }
 
 

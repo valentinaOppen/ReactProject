@@ -3,14 +3,27 @@
   margin: auto;
   height: 100vh;
   background-color: #F5F6FA;
+  border-top: solid 1px black;
 }
 
 .text-center {
   text-align: center;
 }
 
+.text-left {
+  text-align: left;
+}
+
 .flex {
   display: flex;
+}
+
+.column {
+  flex-direction: column;
+}
+
+.w-90 {
+  width: 90%;
 }
 
 .space-between {

@@ -26,7 +26,7 @@ const Table = (props: { data: any, columns: IColumnsTable[] }) => {
                             return <td key={x.key + column.property}>
                                 {
                                     column.type === 'date' ? moment(x[column.property]).format('L') :
-                                        column.type === 'image' ? <img className="img-logo" alt="JS" src={x[column.property]} /> :
+                                        column.type === 'image' ? <img className="img-logo" src={x[column.property]} /> :
                                             column.type === 'menu' ?
                                                 <div className='relative'>
                                                     <button className='btn-transparent' onClick={() => handleMenuActive(index)}>
