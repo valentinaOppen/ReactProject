@@ -12,6 +12,7 @@ export interface IProductState {
     productSelected?: IProduct | null,
     loading: boolean;
     error?: any;
+    delete?: boolean;
 }
 
 
@@ -22,5 +23,6 @@ export interface IColumnsTable {
     icon?: string,
     iconClass?: string,
     options?: string[],
-    type: "string" | "date" | "image" | "menu"
+    type: "string" | "date" | "image" | "menu",
+
 }
