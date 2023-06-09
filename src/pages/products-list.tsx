@@ -12,7 +12,7 @@ const ProductsList = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    let data = useSelector((state: any) => state.product.list).map((item: IProduct) => {
+    let data = useSelector((state: any) => state.product?.list)?.map((item: IProduct) => {
         return { key: item.id, ...item }
     });
 
@@ -48,7 +48,7 @@ const ProductsList = () => {
         <Table data={filteredData ? filteredData : data} columns={columns} />
         <div className='table-total'>{
             //@ts-ignore
-            filteredData ? filteredData.length : data.length} Resultados</div>
+            filteredData ? filteredData.length : data?.length} Resultados</div>
     </>
 }
 
