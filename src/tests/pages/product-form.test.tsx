@@ -1,7 +1,7 @@
 //@ts-nocheck
 
 import React from 'react';
-import { render, screen, fireEvent, userEvent } from '@testing-library/react';
+import { render, screen, fireEvent, userEvent, act } from '@testing-library/react';
 import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
 import ProductsForm from '../../pages/products-form';
@@ -89,7 +89,9 @@ describe('Products Form', () => {
         fireEvent.change(screen.getByTestId('FechaLiberacion'), { target: { value: '2023-01-01' } });
         fireEvent.change(screen.getByTestId('FechaRevision'), { target: { value: '2023-01-02' } });
 
-        fireEvent.click(screen.getByTestId('btn-enviar', { name: 'Enviar' }));
+        act(() => {
+            fireEvent.click(screen.getByTestId('btn-enviar', { name: 'Enviar' }));
+        })
     });
 
 });

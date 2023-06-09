@@ -5,6 +5,7 @@ import DropDownMenu from './ui/dropDownMenu';
 import { IColumnsTable } from '../interfaces/interfaces';
 import './../styles/table.css';
 import dots from '../assets/dots.svg';
+import { formatDateForInput } from '../helpers/dateFormater';
 
 
 const Table = (props: { data: any, columns: IColumnsTable[] }) => {
@@ -27,7 +28,7 @@ const Table = (props: { data: any, columns: IColumnsTable[] }) => {
                         {props.columns.map((column: IColumnsTable) => {
                             return <td key={x.key + column.property}>
                                 {
-                                    column.type === 'date' ? moment(x[column.property]).format('L') :
+                                    column.type === 'date' ? formatDateForInput(x[column.property]) :
                                         column.type === 'image' ? <img className="img-logo" src={x[column.property]} /> :
                                             column.type === 'menu' ?
                                                 <div className='relative'>

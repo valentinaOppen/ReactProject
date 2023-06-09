@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
-import { createProduct, editProduct, validateProductId } from '../store/productSlice';
+import { createProduct, editProduct, validateProductId, deleteProduct } from '../store/productSlice';
 import { formatDateForInput, formatDatePlusOneYear } from '../helpers/dateFormater';
 
 import '../styles/products-form.css';
@@ -17,8 +17,8 @@ const ProductsForm = () => {
     const { register, handleSubmit, setValue, formState: { errors } } = useForm();
 
     let errorsForm = useSelector((state: any) => state.product.error);
-    let selectedProduct = useSelector((state: any) => state.product.productSelected?.product);
-    let deleteProduct = useSelector((state: any) => state.product.productSelected?.product);
+    let selectedProduct = useSelector((state: any) => state.product?.productSelected?.product);
+    let isDeleteProduct = useSelector((state: any) => state.product.delete);
 
     useEffect(() => {
         setInitialValues();
@@ -58,7 +58,7 @@ const ProductsForm = () => {
     };
 
     const handleCancel = () => {
-        if (deleteProduct) navigate('/', { replace: true });
+        if (isDeleteProduct) navigate('/', { replace: true });
     }
 
     const handleDelete = () => {
@@ -70,7 +70,7 @@ const ProductsForm = () => {
     return (
 
         <div className="container-form">
-            <h2 className="title-form">{deleteProduct ? 'Eliminar Registro' : 'Formulario de registro'}</h2>
+            <h2 className="title-form">{isDeleteProduct ? 'Eliminar Registro' : 'Formulario de registro'}</h2>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="flex" style={{ marginBottom: '20px' }}>
                     <div className="flex column w-90 text-left">
@@ -134,7 +134,7 @@ const ProductsForm = () => {
                 <div className="errors-form">{errorsForm && <span className="input-error">{errorsForm}</span>}</div>
                 <div className="buttons-form">
                     <button type="reset" onClick={handleCancel} className="btn-cancel">Cancelar</button>
-                    {deleteProduct ?
+                    {isDeleteProduct ?
                         <button type="button" onClick={handleDelete} className="btn-action">Eliminar</button> :
                         <button type="submit" data-testid="btn-enviar" disabled={errorsForm} className="btn-action">Enviar</button>}
                 </div>

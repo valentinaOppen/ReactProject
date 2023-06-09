@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { loadProducts } from '../store/productSlice';
+import { loadProducts, productSelected } from '../store/productSlice';
 
 import Table from "../components/table"
 import Filter from "../components/filter";
@@ -30,6 +30,7 @@ const ProductsList = () => {
     }
 
     const navigateToForm = () => {
+        dispatch(productSelected({ product: null }))
         navigate('nuevo-producto', { replace: true });
     }
 

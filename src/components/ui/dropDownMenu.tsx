@@ -10,7 +10,7 @@ const DropDownMenu = (product: any) => {
     const navigate = useNavigate();
 
     const handleEdit = () => {
-        dispatch(productSelected(product))
+        dispatch(productSelected({ product: product }))
         navigate('editar-producto', { replace: true });
     }
 

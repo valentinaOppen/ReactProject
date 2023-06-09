@@ -19,6 +19,7 @@ export const productSlice = createSlice({
         productsReceived: (state, action) => {
             state.list = action.payload;
             state.loading = false;
+            state.error = null;
         },
         productsRequestFailed: (state) => {
             state.loading = false;
@@ -40,6 +41,7 @@ export const productSlice = createSlice({
         productsAddReceived: (state, action) => {
             state.productSelected = action.payload;
             state.loading = false;
+            state.error = null;
         },
         productsAddFailed: (state, action) => {
             state.loading = false;
