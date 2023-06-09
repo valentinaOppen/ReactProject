@@ -22,9 +22,6 @@ const api =
                         data,
                         headers: { 'authorId': 1 }
                     });
-                    // General
-                    // dispatch(actions.apiCallSucess(response.data));
-                    // Specific
                     if (response.status === 200) {
                         dispatch({ type: onSuccess, payload: response.data });
                     }

@@ -1,9 +1,10 @@
-import { IColumnsTable } from '../interfaces/interfaces';
-import moment from 'moment'
-import dots from '../assets/dots.svg';
-import './../styles/table.css';
-import DropDownMenu from './ui/dropDownMenu';
 import { useState } from 'react';
+import moment from 'moment'
+
+import DropDownMenu from './ui/dropDownMenu';
+import { IColumnsTable } from '../interfaces/interfaces';
+import './../styles/table.css';
+import dots from '../assets/dots.svg';
 
 
 const Table = (props: { data: any, columns: IColumnsTable[] }) => {

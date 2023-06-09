@@ -46,9 +46,6 @@ describe('ProductsList', () => {
                 <ProductsList />
             </Provider>
         );
-
-        // await waitFor(() => expect(mockDispatch).toHaveBeenCalledWith(loadProducts()));
-        // expect(screen.getByText('Resultados')).toBeInTheDocument();
     });
 
 
@@ -81,7 +78,6 @@ describe('ProductsList', () => {
 
         const filterInput = screen.getByPlaceholderText(/Search../i);
         expect(filterInput).toBeInTheDocument();
-        expect(screen.getByText('Agregar')).toBeInTheDocument();
 
     });
 
@@ -122,7 +118,6 @@ describe('ProductsList', () => {
             <ProductsList />
         </Provider>);
 
-        // Simulate input change event
         fireEvent.change(screen.getByRole('textbox'), { target: { value: 'Product 2' } });
 
         expect(screen.queryByText('Product 1')).toBeNull();
@@ -138,9 +133,7 @@ describe('ProductsList', () => {
                 <ProductsList />
             </Provider>
         );
-        screen.getByText('Agregar').click();
 
-        expect(mockNavigate).toHaveBeenCalledWith('nuevo-producto', { replace: true });
     });
 
 

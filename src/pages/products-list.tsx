@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+
 import { loadProducts } from '../store/productSlice';
+
 import Table from "../components/table"
 import Filter from "../components/filter";
 import AddButton from "../components/ui/addButton";

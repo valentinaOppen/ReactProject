@@ -15,7 +15,7 @@ const DropDownMenu = (product: any) => {
     }
 
     const handleDelete = () => {
-        dispatch(productSelected(product))
+        dispatch(productSelected({ product: product, delete: true }))
         navigate('eliminar-producto', { replace: true });
     }
 

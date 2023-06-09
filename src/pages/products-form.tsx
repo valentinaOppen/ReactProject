@@ -1,25 +1,24 @@
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import moment from 'moment'
+
+import { createProduct, editProduct, validateProductId } from '../store/productSlice';
+import { formatDateForInput, formatDatePlusOneYear } from '../helpers/dateFormater';
+
 import '../styles/products-form.css';
 import '../styles/buttons.css';
-import { useDispatch, useSelector } from 'react-redux';
-import { createProduct, deleteProduct, editProduct, validateProductId } from '../store/productSlice';
-import { useEffect } from 'react';
-import { formatDateForInput, formatDatePlusOneYear } from '../helpers/dateFormater';
-import { useLocation, useNavigate } from "react-router-dom";
 
 const ProductsForm = () => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const location = useLocation();
 
     const { register, handleSubmit, setValue, formState: { errors } } = useForm();
 
     let errorsForm = useSelector((state: any) => state.product.error);
     let selectedProduct = useSelector((state: any) => state.product.productSelected?.product);
-
-    const isDelete = location.pathname === '/eliminar-producto';
+    let deleteProduct = useSelector((state: any) => state.product.productSelected?.product);
 
     useEffect(() => {
         setInitialValues();
@@ -59,7 +58,7 @@ const ProductsForm = () => {
     };
 
     const handleCancel = () => {
-        if (isDelete) navigate('/', { replace: true });
+        if (deleteProduct) navigate('/', { replace: true });
     }
 
     const handleDelete = () => {
@@ -71,13 +70,13 @@ const ProductsForm = () => {
     return (
 
         <div className="container-form">
-            <h2 className="title-form">{isDelete ? 'Eliminar Registro' : 'Formulario de registro'}</h2>
+            <h2 className="title-form">{deleteProduct ? 'Eliminar Registro' : 'Formulario de registro'}</h2>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="flex" style={{ marginBottom: '20px' }}>
                     <div className="flex column w-90 text-left">
-                        <label className="label-form">ID</label>
+                        <label aria-label="ID" className="label-form">ID</label>
                         <>
-                            <input className={errors.id ? 'form-error form-input' : 'form-input'} {...register("id")} />
+                            <input data-testid="ID" className={errors.id ? 'form-error form-input' : 'form-input'} {...register("id")} />
                             {errors.id && <span className="input-error">This field is required</span>}
 
                         </>
@@ -85,7 +84,7 @@ const ProductsForm = () => {
                     <div className="flex column w-90 text-left">
                         <label className="label-form">Nombre</label>
                         <>
-                            <input className={errors.name ? 'form-error form-input' : 'form-input'} {...register("name",
+                            <input data-testid="Nombre" className={errors.name ? 'form-error form-input' : 'form-input'} {...register("name",
                                 {
                                     required: { value: true, message: 'El campo es requerido' },
                                     minLength: { value: 5, message: 'El campo debe tener mas de 5 caracteres' },
@@ -99,7 +98,7 @@ const ProductsForm = () => {
                     <div className="flex column w-90 text-left">
                         <label className="label-form">Descripción</label>
                         <>
-                            <input className={errors.description ? 'form-error form-input' : 'form-input'} {...register("description",
+                            <input data-testid="Descripcion" className={errors.description ? 'form-error form-input' : 'form-input'} {...register("description",
                                 {
                                     required: { value: true, message: 'El campo es requerido' },
                                     minLength: { value: 10, message: 'El campo debe tener mas de 10 caracteres' },
@@ -111,7 +110,7 @@ const ProductsForm = () => {
                     <div className="flex column w-90 text-left">
                         <label className="label-form">Logo</label>
                         <>
-                            <input className={errors.logo ? 'form-error form-input' : 'form-input'} {...register("logo", { required: { value: true, message: 'El campo es requerido' } })} />
+                            <input data-testid="Logo" className={errors.logo ? 'form-error form-input' : 'form-input'} {...register("logo", { required: { value: true, message: 'El campo es requerido' } })} />
                             {errors?.logo?.message && <span className="input-error">{errors.logo.message.toString()}</span>}
                         </>
                     </div>
@@ -120,14 +119,14 @@ const ProductsForm = () => {
                     <div className="flex column w-90 text-left">
                         <label className="label-form">Fecha Liberación</label>
                         <>
-                            <input type="date" min={new Date().toISOString().split("T")[0]} className={errors.date_release ? 'form-error form-input' : 'form-input'} {...register("date_release", { required: true })} onBlur={(e) => setRevisionDate(e)} />
+                            <input data-testid="FechaLiberacion" type="date" min={new Date().toISOString().split("T")[0]} className={errors.date_release ? 'form-error form-input' : 'form-input'} {...register("date_release", { required: true })} onBlur={(e) => setRevisionDate(e)} />
                             {errors.date_release && <span className="input-error">This field is required</span>}
                         </>
                     </div>
                     <div className="flex column w-90 text-left">
                         <label className="label-form">Fecha Revisión</label>
                         <>
-                            <input type="date" disabled className={errors.date_revision ? 'form-error form-input' : 'form-input'} {...register("date_revision", { required: true })} />
+                            <input type="date" data-testid="FechaRevision" disabled className={errors.date_revision ? 'form-error form-input' : 'form-input'} {...register("date_revision", { required: true })} />
                             {errors.date_revision && <span className="input-error">This field is required</span>}
                         </>
                     </div>
@@ -135,9 +134,9 @@ const ProductsForm = () => {
                 <div className="errors-form">{errorsForm && <span className="input-error">{errorsForm}</span>}</div>
                 <div className="buttons-form">
                     <button type="reset" onClick={handleCancel} className="btn-cancel">Cancelar</button>
-                    {isDelete ?
+                    {deleteProduct ?
                         <button type="button" onClick={handleDelete} className="btn-action">Eliminar</button> :
-                        <button type="submit" disabled={errorsForm} className="btn-action">Enviar</button>}
+                        <button type="submit" data-testid="btn-enviar" disabled={errorsForm} className="btn-action">Enviar</button>}
                 </div>
             </form>
         </div>

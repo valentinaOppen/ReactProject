@@ -5,7 +5,8 @@ import { apiCallBegan } from './api';
 const initialState: IProductState = {
     list: [],
     productSelected: null,
-    loading: false
+    loading: false,
+    delete: false
 }
 
 export const productSlice = createSlice({
@@ -67,7 +68,8 @@ export const productSlice = createSlice({
             state.error = action.payload;
         },
         productSelected: (state, action) => {
-            state.productSelected = action.payload
+            state.productSelected = action.payload.product;
+            state.delete = action.payload.delete;
         }
     }
 })
