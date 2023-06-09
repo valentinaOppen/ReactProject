@@ -3,8 +3,16 @@ import ProductsList from '../../pages/products-list';
 import Table from '../../components/table';
 import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import productReducer, { loadProducts } from '../../store/productSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+
+
+const reactRedux = { useDispatch, useSelector }
+const useDispatchMock = jest.spyOn(reactRedux, "useDispatch");
+const useSelectorMock = jest.spyOn(reactRedux, "useSelector");
+const useNavigateMock = jest.spyOn({ useNavigate }, "useNavigate");
 
 jest.mock('react-router-dom', () => ({
     useNavigate: jest.fn(),
@@ -18,25 +26,31 @@ describe('ProductsList', () => {
             reducer: {
                 product: productReducer,
             },
+            product: {
+                list: [],
+            },
         });
+        useSelectorMock.mockClear();
+        useDispatchMock.mockClear();
+        useNavigateMock.mockClear();
     });
 
-    // test('renders ProductsList component', async () => {
-    //     store.dispatch(loadProducts());
-    // });
+    test('dispatches loadProducts action on mount', async () => {
+        const mockDispatch = jest.fn();
 
-    // test('dispatches loadProducts action on mount', () => {
-    //     store.dispatch(loadProducts());
+        useDispatchMock.mockReturnValue(mockDispatch);
+        useSelectorMock.mockReturnValue([]);
 
-    //     render(
-    //         <Provider store={store}>
-    //             <ProductsList />
-    //         </Provider>
-    //     );
+        render(
+            <Provider store={store}>
+                <ProductsList />
+            </Provider>
+        );
 
-    //     // Verifica que la acción de loadProducts haya sido despachada
-    //     expect(store.getActions()).toContainEqual(loadProducts());
-    // });
+        // await waitFor(() => expect(mockDispatch).toHaveBeenCalledWith(loadProducts()));
+        // expect(screen.getByText('Resultados')).toBeInTheDocument();
+    });
+
 
     test('renders ProductsList component correctly', () => {
         const store = configureStore({
@@ -96,25 +110,38 @@ describe('ProductsList', () => {
 
     });
 
-    // test('navigates to "nuevo-producto" route on AddButton click', () => {
-    //     const mockNavigate = jest.fn();
-    //     useNavigate.mockReturnValue(mockNavigate);
+    test('filters data when input value changes', () => {
+        const mockedData = [
+            { id: 1, name: 'Product 1', description: 'Description 1' },
+            { id: 2, name: 'Product 2', description: 'Description 2' },
+            { id: 3, name: 'Product 3', description: 'Description 3' },
+        ];
+        useSelectorMock.mockReturnValue(mockedData);
 
-    //     const store = mockStore({
-    //         product: {
-    //             list: [],
-    //         },
-    //     });
+        render(<Provider store={store}>
+            <ProductsList />
+        </Provider>);
 
-    //     render(
-    //         <Provider store={store}>
-    //             <ProductsList />
-    //         </Provider>
-    //     );
-    //     screen.getByText('Add').click();
+        // Simulate input change event
+        fireEvent.change(screen.getByRole('textbox'), { target: { value: 'Product 2' } });
 
-    //     expect(mockNavigate).toHaveBeenCalledWith('nuevo-producto', { replace: true });
-    // });
+        expect(screen.queryByText('Product 1')).toBeNull();
+        expect(screen.queryByText('Product 3')).toBeNull();
+    });
+
+    test('navigates to "nuevo-producto" route on AddButton click', () => {
+        const mockNavigate = jest.fn();
+        useNavigateMock.mockReturnValue(mockNavigate);
+
+        render(
+            <Provider store={store}>
+                <ProductsList />
+            </Provider>
+        );
+        screen.getByText('Agregar').click();
+
+        expect(mockNavigate).toHaveBeenCalledWith('nuevo-producto', { replace: true });
+    });
 
 
 });
